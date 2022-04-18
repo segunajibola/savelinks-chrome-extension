@@ -1,15 +1,22 @@
-let myLeads = ["www.awesome.com", "www.awesome.com", "www.awesome.com"]
+let myLeads = []
 const inputEl = document.getElementById("input-el")
 const inputBtn = document.getElementById("input-btn")
+const deleteBtn = document.getElementById("delete-btn")
 const ulEl = document.getElementById("ul-el")
+const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
+
+if (leadsFromLocalStorage) {
+    myLeads = leadsFromLocalStorage
+    render(myLeads)
+}
 
 inputBtn.addEventListener("click", function() {
     myLeads.push(inputEl.value)
     inputEl.value = ""
-    renderLeads()
+    render(myLeads)
 })
 
-function renderLeads() {
+function render() {
     let listItem = ""
 
     for (let i = 0; i < myLeads.length; i++) {
