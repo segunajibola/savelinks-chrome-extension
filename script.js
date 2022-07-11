@@ -1,52 +1,52 @@
-let myLeads = []
+let savedLinks = []
 const inputEl = document.getElementById("input-el")
 const inputBtn = document.getElementById("input-btn")
 const deleteBtn = document.getElementById("delete-btn")
-const tabBtn = document.getElementById("tab-btn")
+const saveBtn = document.getElementById("tab-btn")
 const ulEl = document.getElementById("ul-el")
-const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
+const linksFromLocalStorage = JSON.parse( localStorage.getItem("savedLinks") )
 
-if (leadsFromLocalStorage) {
-    myLeads = leadsFromLocalStorage
-    render(myLeads)
+if (linksFromLocalStorage) {
+    savedLinks = linksFromLocalStorage
+    render(savedLinks)
 }
 
-tabBtn.addEventListener("click", function() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        myLeads.push(tabs[0].url)
-        localStorage.setItem("myLeads", JSON.stringify(myLeads))
-        render(myLeads)
-    })
-})
-
-function render(leads) {
+function render(links) {
     let listItem = ""
 
-    for (let i = 0; i < leads.length; i++) {
+    for (let i = 0; i < links.length; i++) {
             listItem += `
                 <li>
-                    <a target='_blank' href='${leads[i]}'>
-                        ${leads[i]}
+                    <a target='_blank' href='${links[i]}'>
+                        ${links[i]}
                     </a>
                 </li>
             `
             // SAME
             // const li = document.createElement("li")
-            // li.textContent = myLeads[i]
+            // li.textContent = savedLinks[i]
             // ulEl.append(li)
     }
     ulEl.innerHTML = listItem
 }
 
+saveBtn.addEventListener("click", function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        savedLinks.push(tabs[0].url)
+        localStorage.setItem("savedLinks", JSON.stringify(savedLinks))
+        render(savedLinks)
+    })
+})
+
 deleteBtn.addEventListener("dblclick", function() {
     localStorage.clear()
-    myLeads = []
-    render(myLeads)
+    savedLinks = []
+    render(savedLinks)
 })
 
 inputBtn.addEventListener("click", function() {
-    myLeads.push(inputEl.value)
+    savedLinks.push(inputEl.value)
     inputEl.value = ""
-    localStorage.setItem("myLeads", JSON.stringify(myLeads))
-    render(myLeads)
+    localStorage.setItem("savedLinks", JSON.stringify(savedLinks))
+    render(savedLinks)
 })
