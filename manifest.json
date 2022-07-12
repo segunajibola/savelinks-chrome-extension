@@ -4,7 +4,7 @@
     "name": "Savelinks",
     "action": {
         "default_popup": "index.html",
-        "default_icon": "icon.jpg"
+        "default_icon": "link.jpg"
     },
     "permissions": [
         "tabs"
